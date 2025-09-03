@@ -9,7 +9,7 @@
   import Pagination from '$lib/components/Pagination.svelte';
   import SearchBar from '$lib/components/SearchBar.svelte';
   import StatusFilter from '$lib/components/StatusFilter.svelte';
-  import ThemeToggle from '$lib/components/ThemeToggle.svelte';
+  import ThemeSwitcher from '$lib/components/ThemeSwitcher.svelte';
 
   let showCreateModal = $state(false);
   let showEditModal = $state(false);
@@ -102,7 +102,7 @@
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Article Management</h1>
       <div class="flex items-center gap-3">
-        <ThemeToggle />
+        <ThemeSwitcher />
         <Button onclick={openCreateModal} variant="primary">
         <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
@@ -144,6 +144,7 @@
     <ArticleList 
       articles={articlesStore.articles}
       loading={articlesStore.loading}
+      searchQuery={articlesStore.filters.query}
       onEdit={openEditModal}
       onDelete={openDeleteModal}
     />

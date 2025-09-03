@@ -12,8 +12,8 @@ importers:
         specifier: ^4.1.0
         version: 4.1.0
       svelte-themes:
-        specifier: github:aholland/svelte-themes
-        version: https://codeload.github.com/aholland/svelte-themes/tar.gz/d413206ebd8501368d5dfd9c5021a6d30b46ea20(svelte@5.38.6)
+        specifier: github:aholland/svelte-themes#v1.0.2
+        version: https://codeload.github.com/aholland/svelte-themes/tar.gz/0873afc96068fee614533c8574a30e1f89854d49(svelte@5.38.6)
       zod:
         specifier: ^4.1.5
         version: 4.1.5
@@ -1595,8 +1595,8 @@ packages:
       svelte:
         optional: true
 
-  svelte-themes@https://codeload.github.com/aholland/svelte-themes/tar.gz/d413206ebd8501368d5dfd9c5021a6d30b46ea20:
-    resolution: {tarball: https://codeload.github.com/aholland/svelte-themes/tar.gz/d413206ebd8501368d5dfd9c5021a6d30b46ea20}
+  svelte-themes@https://codeload.github.com/aholland/svelte-themes/tar.gz/0873afc96068fee614533c8574a30e1f89854d49:
+    resolution: {tarball: https://codeload.github.com/aholland/svelte-themes/tar.gz/0873afc96068fee614533c8574a30e1f89854d49}
     version: 1.0.2
     peerDependencies:
       svelte: ^4.0.0 || ^5.0.0
@@ -3225,7 +3225,7 @@ snapshots:
     optionalDependencies:
       svelte: 5.38.6
 
-  svelte-themes@https://codeload.github.com/aholland/svelte-themes/tar.gz/d413206ebd8501368d5dfd9c5021a6d30b46ea20(svelte@5.38.6):
+  svelte-themes@https://codeload.github.com/aholland/svelte-themes/tar.gz/0873afc96068fee614533c8574a30e1f89854d49(svelte@5.38.6):
     dependencies:
       svelte: 5.38.6
 

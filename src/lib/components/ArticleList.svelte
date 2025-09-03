@@ -2,6 +2,7 @@
   import type { Article } from '$lib/types/article';
   import { ArticleStatus } from '$lib/types/article';
   import { format } from 'date-fns';
+  import { highlightText } from '$lib/utils/highlight';
   import Badge from './Badge.svelte';
   import Button from './Button.svelte';
   import Card from './Card.svelte';
@@ -9,11 +10,12 @@
   interface Props {
     articles: Article[];
     loading?: boolean;
+    searchQuery?: string;
     onEdit: (article: Article) => void;
     onDelete: (article: Article) => void;
   }
 
-  let { articles, loading = false, onEdit, onDelete }: Props = $props();
+  let { articles, loading = false, searchQuery = '', onEdit, onDelete }: Props = $props();
 
   function formatDate(dateString: string) {
     try {
@@ -55,10 +57,10 @@
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white">
-                {article.title}
+                {@html highlightText(article.title, searchQuery)}
               </h3>
               <Badge variant={getBadgeVariant(article.status)}>
-                {article.status}
+                {@html highlightText(article.status, searchQuery)}
               </Badge>
             </div>
             
@@ -67,13 +69,13 @@
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                 </svg>
-                {article.author}
+                <span>{@html highlightText(article.author, searchQuery)}</span>
               </span>
               <span class="flex items-center gap-1">
                 <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
-                {formatDate(article.createdAt)}
+                <span>{@html highlightText(formatDate(article.createdAt), searchQuery)}</span>
               </span>
             </div>
           </div>

@@ -11,6 +11,7 @@ import type {
   UpdateArticleInput,
   PaginatedResponse 
 } from '$lib/types/article';
+import { ArticleStatus } from '$lib/types/article';
 
 interface ArticlesState {
   articles: Article[];

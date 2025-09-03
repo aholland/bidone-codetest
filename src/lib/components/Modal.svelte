@@ -9,7 +9,7 @@
   }
 
   let { open = $bindable(), title, onClose, children }: Props = $props();
-  let dialog: HTMLDialogElement | undefined;
+  let dialog = $state<HTMLDialogElement | undefined>();
   let previousFocus: HTMLElement | null = null;
 
   onMount(() => {
