@@ -100,7 +100,7 @@
 <div class="container mx-auto px-4 py-8 max-w-7xl">
   <header class="mb-8">
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Article Management</h1>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Article management</h1>
       <div class="flex items-center gap-3">
         <ThemeSwitcher />
         <Button onclick={openCreateModal} variant="primary">

@@ -2,6 +2,15 @@
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
 
+/* Custom Font - Guthen Bloots (Personal Use) */
+@font-face {
+  font-family: 'Guthen Bloots';
+  src: url('/fonts/Guthen Bloots Personal Use.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* Configure dark mode to use data-theme attribute */
 @variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
@@ -38,6 +47,7 @@
   --text-primary: #333333;
   --text-secondary: #666666;
   --border: #e0e0e0;
+  --font-script: 'Guthen Bloots', cursive; /* Actual BidFood font (Personal Use) */
 }
 
 /* Ensure body takes full height */
@@ -62,6 +72,11 @@ input[type="search"]::-webkit-search-decoration {
   appearance: none;
 }
 
+/* Utility classes for script fonts */
+.font-script {
+  font-family: 'Guthen Bloots', cursive;
+}
+
 /* BidFood theme specific styles */
 [data-theme="bidfood"] {
   .bg-white { background: var(--surface); }
@@ -70,8 +85,22 @@ input[type="search"]::-webkit-search-decoration {
   .text-gray-600 { color: var(--text-secondary); }
   .border-gray-200 { border-color: var(--border); }
   
+  /* Apply marker font to main heading with BidFood green */
+  h1 {
+    font-family: var(--font-script);
+    font-weight: 400;
+    color: var(--primary-color) !important; /* BidFood green - override Tailwind classes */
+  }
+  
   /* Buttons */
   .bg-blue-600 { background: var(--primary-color); }
+  
+  /* Apply Guthen Bloots font to buttons */
+  button {
+    font-family: var(--font-script);
+    font-weight: 400;
+    font-size: 1.1em; /* Slightly larger for readability */
+  }
   .hover\:bg-blue-700:hover { background: var(--secondary-color); }
   .text-blue-600 { color: var(--primary-color); }
   
