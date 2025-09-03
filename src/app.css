@@ -12,7 +12,12 @@ html.dark {
 
 /* Light mode background */
 html:not(.dark) {
-  @apply bg-white text-gray-900;
+  @apply bg-gray-50 text-gray-900;
+}
+
+/* Ensure body takes full height */
+body {
+  @apply min-h-screen;
 }
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';
