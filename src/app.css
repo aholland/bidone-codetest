@@ -1,3 +1,18 @@
 @import 'tailwindcss';
+
+/* Ensure smooth transitions between themes */
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode background */
+html.dark {
+  @apply bg-gray-900 text-gray-100;
+}
+
+/* Light mode background */
+html:not(.dark) {
+  @apply bg-white text-gray-900;
+}
 @plugin '@tailwindcss/forms';
 @plugin '@tailwindcss/typography';

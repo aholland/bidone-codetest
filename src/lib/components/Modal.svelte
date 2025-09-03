@@ -9,8 +9,8 @@
   }
 
   let { open = $bindable(), title, onClose, children }: Props = $props();
-  let dialog = $state<HTMLDialogElement>();
-  let previousFocus = $state<HTMLElement | null>(null);
+  let dialog: HTMLDialogElement | undefined;
+  let previousFocus: HTMLElement | null = null;
 
   onMount(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
