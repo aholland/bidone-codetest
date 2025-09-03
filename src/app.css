@@ -8,7 +8,7 @@
   src: url('/fonts/Guthen Bloots Personal Use.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
-  font-display: swap;
+  font-display: block; /* Block rendering until font loads to prevent flash */
 }
 
 /* Configure dark mode to use data-theme attribute */
@@ -107,8 +107,8 @@ input[type="search"]::-webkit-search-decoration {
   /* Badges */
   .bg-green-100 { background: #f0f8e8; }
   .text-green-800 { color: #6B9B1F; }
-  .bg-yellow-100 { background: #f0e6ff; }
-  .text-yellow-800 { color: #140749; }
+  .bg-yellow-100 { background: #f3f4f6; } /* Light gray background for Draft */
+  .text-yellow-800 { color: #374151; } /* Darker gray text for Draft */
   
   /* Cards and surfaces */
   .shadow-sm { box-shadow: 0 2px 8px rgba(114, 194, 98, 0.1); }

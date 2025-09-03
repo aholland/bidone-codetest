@@ -10,5 +10,5 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<SvelteTheme themes={['system', 'light', 'dark', 'bidfood']} defaultTheme="system" />
+<SvelteTheme themes={['system', 'light', 'dark', 'bidfood']} defaultTheme="bidfood" />
 {@render children?.()}
