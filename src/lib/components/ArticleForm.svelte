@@ -2,7 +2,6 @@
   import { createArticleSchema, updateArticleSchema, ArticleStatus } from '$lib/types/article';
   import type { Article, CreateArticleInput, UpdateArticleInput } from '$lib/types/article';
   import Input from './Input.svelte';
-  import Select from './Select.svelte';
   import Button from './Button.svelte';
   import { z } from 'zod';
 
@@ -20,10 +19,6 @@
   let errors = $state<Record<string, string>>({});
   let submitting = $state(false);
 
-  const statusOptions = [
-    { value: ArticleStatus.DRAFT, label: 'Draft' },
-    { value: ArticleStatus.PUBLISHED, label: 'Published' },
-  ];
 
   async function handleSubmit(event: SubmitEvent) {
     event.preventDefault();
@@ -92,15 +87,22 @@
     disabled={submitting}
   />
 
-  <Select
-    label="Status"
-    bind:value={status}
-    options={statusOptions}
-    error={errors.status}
-    required
-    fullWidth
-    disabled={submitting}
-  />
+  <div class="flex items-center">
+    <input
+      type="checkbox"
+      id="published"
+      checked={status === ArticleStatus.PUBLISHED}
+      onchange={(e) => status = e.currentTarget.checked ? ArticleStatus.PUBLISHED : ArticleStatus.DRAFT}
+      disabled={submitting}
+      class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50"
+    />
+    <label for="published" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+      Publish
+      {#if status === ArticleStatus.DRAFT}
+        <span class="text-gray-500 dark:text-gray-400">(draft)</span>
+      {/if}
+    </label>
+  </div>
 
   <div class="flex gap-3 justify-end pt-4 border-t dark:border-gray-700">
     <Button
@@ -116,7 +118,7 @@
       variant="primary"
       disabled={submitting}
     >
-      {submitting ? 'Saving...' : article ? 'Update Article' : 'Create Article'}
+      {submitting ? 'Saving...' : article ? 'Update Article' : status === ArticleStatus.PUBLISHED ? 'Publish article' : 'Create draft'}
     </Button>
   </div>
 </form>

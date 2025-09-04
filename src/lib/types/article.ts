@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+export const TITLE_MAX_LENGTH = 200;
+export const AUTHOR_MAX_LENGTH = 100;
+
 export const ArticleStatus = {
   DRAFT: 'Draft',
   PUBLISHED: 'Published',
@@ -9,9 +12,9 @@ export type ArticleStatus = (typeof ArticleStatus)[keyof typeof ArticleStatus];
 
 export const articleSchema = z.object({
   id: z.number(),
-  title: z.string().min(1, 'Title is required').max(200, 'Title must be less than 200 characters'),
+  title: z.string().min(1, 'Title is required').max(TITLE_MAX_LENGTH, `Title can be at most ${TITLE_MAX_LENGTH} characters`),
   status: z.enum([ArticleStatus.DRAFT, ArticleStatus.PUBLISHED]),
-  author: z.string().min(1, 'Author is required').max(100, 'Author must be less than 100 characters'),
+  author: z.string().min(1, 'Author is required').max(AUTHOR_MAX_LENGTH, `Author can be at most ${AUTHOR_MAX_LENGTH} characters`),
   createdAt: z.string().datetime(),
 });
 

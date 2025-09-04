@@ -19,6 +19,7 @@ interface ArticlesState {
   page: number;
   totalPages: number;
   loading: boolean;
+  searchLoading: boolean;
   error: string | null;
   filters: ArticleFilters;
 }
@@ -30,6 +31,7 @@ class ArticlesStore {
     page: 1,
     totalPages: 0,
     loading: false,
+    searchLoading: false,
     error: null,
     filters: {
       page: 1,
@@ -65,6 +67,10 @@ class ArticlesStore {
 
   get filters() {
     return this.state.filters;
+  }
+
+  get searchLoading() {
+    return this.state.searchLoading;
   }
 
   async loadArticles(filters?: Partial<ArticleFilters>) {
@@ -179,7 +185,37 @@ class ArticlesStore {
   }
 
   setQuery(query: string) {
-    this.loadArticles({ query, page: 1 });
+    // Just update the filter, let the debounced search handle the actual load
+    this.state.filters.query = query;
+    this.state.filters.page = 1;
+  }
+  
+  async performSearch(query: string) {
+    // This actually triggers the load after debounce
+    this.state.filters.query = query;
+    this.state.filters.page = 1;
+    
+    // Use searchLoading instead of loading to avoid disabling the search bar
+    this.state.searchLoading = true;
+    this.state.error = null;
+
+    try {
+      const response = await fetchArticles(this.state.filters);
+      
+      if (response.success && response.data) {
+        const data: PaginatedResponse<Article> = response.data;
+        this.state.articles = data.data;
+        this.state.total = data.total;
+        this.state.page = data.page;
+        this.state.totalPages = data.totalPages;
+      } else {
+        this.state.error = response.error || 'Failed to load articles';
+      }
+    } catch (error) {
+      this.state.error = error instanceof Error ? error.message : 'An unexpected error occurred';
+    } finally {
+      this.state.searchLoading = false;
+    }
   }
 
   setStatus(status: string | undefined) {

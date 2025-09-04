@@ -16,7 +16,6 @@
   let showDeleteModal = $state(false);
   let editingArticle = $state<Article | null>(null);
   let deletingArticle = $state<Article | null>(null);
-  let searchQuery = $state('');
   let statusFilter = $state<string | undefined>(undefined);
 
   onMount(() => {
@@ -24,7 +23,8 @@
   });
 
   function handleSearch(query: string) {
-    articlesStore.setQuery(query);
+    // Just perform the search - the SearchBar handles its own state
+    articlesStore.performSearch(query);
   }
 
   function handleStatusFilter(status: string | undefined) {
@@ -115,10 +115,8 @@
     <div class="flex flex-col sm:flex-row gap-4">
       <div class="flex-1">
         <SearchBar 
-          bind:value={searchQuery} 
           onSearch={handleSearch}
           placeholder="Search articles by title..."
-          disabled={articlesStore.loading}
         />
       </div>
       <StatusFilter 

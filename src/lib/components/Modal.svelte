@@ -46,11 +46,11 @@
 {#if open}
   <dialog
     bind:this={dialog}
-    class="fixed inset-0 z-50 overflow-y-auto p-4 backdrop:bg-black/50"
+    class="backdrop:bg-black/50 rounded-lg shadow-xl p-0 bg-transparent max-w-4xl w-[90vw]"
     aria-labelledby={title ? 'modal-title' : undefined}
     onclick={handleBackdropClick}
   >
-    <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl mx-auto">
+    <div class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl w-full">
       {#if title}
         <div class="flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700">
           <h2 id="modal-title" class="text-xl font-semibold text-gray-900 dark:text-white">
@@ -74,3 +74,12 @@
     </div>
   </dialog>
 {/if}
+
+<style>
+  dialog[open] {
+    position: fixed;
+    top: 180px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+</style>

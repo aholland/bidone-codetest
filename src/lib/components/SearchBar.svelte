@@ -1,27 +1,30 @@
 <script lang="ts">
 
   interface Props {
-    value: string;
+    value?: string;
     onSearch: (query: string) => void;
     placeholder?: string;
     disabled?: boolean;
   }
 
-  let { value = $bindable(), onSearch, placeholder = 'Search...', disabled = false }: Props = $props();
+  let { value: initialValue = '', onSearch, placeholder = 'Search...', disabled = false }: Props = $props();
+  
+  // Internal state for the input value - this doesn't trigger re-renders
+  let internalValue = $state(initialValue);
   let debounceTimer: ReturnType<typeof setTimeout>;
 
   function handleInput(event: Event) {
     const target = event.target as HTMLInputElement;
-    value = target.value;
+    internalValue = target.value;
     
     clearTimeout(debounceTimer);
     debounceTimer = setTimeout(() => {
-      onSearch(value);
+      onSearch(internalValue);
     }, 300);
   }
 
   function handleClear() {
-    value = '';
+    internalValue = '';
     onSearch('');
   }
 </script>
@@ -34,14 +37,14 @@
   </div>
   <input
     type="search"
-    {value}
+    value={internalValue}
     {placeholder}
     {disabled}
     oninput={handleInput}
     class="block w-full pl-10 pr-10 py-2 border border-gray-300 dark:border-gray-600 rounded-md leading-5 bg-white dark:bg-gray-800 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm disabled:bg-gray-100 dark:disabled:bg-gray-900 disabled:cursor-not-allowed"
     aria-label="Search articles"
   />
-  {#if value}
+  {#if internalValue}
     <button
       type="button"
       onclick={handleClear}
