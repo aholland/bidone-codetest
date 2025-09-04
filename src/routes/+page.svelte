@@ -17,6 +17,7 @@
   let editingArticle = $state<Article | null>(null);
   let deletingArticle = $state<Article | null>(null);
   let statusFilter = $state<string | undefined>(undefined);
+  let readOnlyMode = $state(false);
 
   onMount(() => {
     articlesStore.loadArticles();
@@ -101,14 +102,29 @@
   <header class="mb-8">
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Article management</h1>
-      <div class="flex items-center gap-3">
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2">
+          <label for="readOnlyMode" class="text-sm text-gray-700 dark:text-gray-300">
+            View-only
+          </label>
+          <input
+            type="checkbox"
+            id="readOnlyMode"
+            bind:checked={readOnlyMode}
+            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+          />
+        </div>
         <ThemeSwitcher />
-        <Button onclick={openCreateModal} variant="primary">
-        <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-        </svg>
-          New Article
-        </Button>
+        <div class="w-32 h-10">
+          {#if !readOnlyMode}
+            <Button onclick={openCreateModal} variant="primary">
+            <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+              New Article
+            </Button>
+          {/if}
+        </div>
       </div>
     </div>
 
@@ -145,6 +161,7 @@
       searchQuery={articlesStore.filters.query}
       onEdit={openEditModal}
       onDelete={openDeleteModal}
+      readOnly={readOnlyMode}
     />
 
     {#if articlesStore.totalPages > 1}

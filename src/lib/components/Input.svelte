@@ -5,12 +5,14 @@
     label?: string;
     error?: string;
     fullWidth?: boolean;
+    maxLength?: number;
   }
 
   let {
     label,
     error,
     fullWidth = false,
+    maxLength,
     id,
     type = 'text',
     class: className = '',
@@ -21,9 +23,13 @@
   }: Props = $props();
 
   const inputId = id || `input-${Math.random().toString(36).slice(2, 9)}`;
+  let isFocused = $state(false);
+  
+  const charCount = $derived(String(value || '').length);
+  const isOverLimit = $derived(maxLength ? charCount > maxLength : false);
 
   const baseClasses = 'block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-white';
-  const errorClasses = error ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '';
+  const errorClasses = error || isOverLimit ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '';
   const widthClass = fullWidth ? 'w-full' : '';
 
   const inputClasses = `${baseClasses} ${errorClasses} ${widthClass} ${className}`;
@@ -45,10 +51,17 @@
     {disabled}
     bind:value
     class={inputClasses}
-    aria-invalid={!!error}
+    aria-invalid={!!error || isOverLimit}
     aria-describedby={error ? `${inputId}-error` : undefined}
+    onfocus={() => isFocused = true}
+    onblur={() => isFocused = false}
     {...restProps}
   />
+  {#if maxLength && isFocused && charCount > 0}
+    <p class="mt-1 text-sm {isOverLimit ? 'text-red-600 dark:text-red-400 underline' : 'text-gray-500 dark:text-gray-400'}">
+      {charCount}/{maxLength}
+    </p>
+  {/if}
   {#if error}
     <p id="{inputId}-error" class="mt-1 text-sm text-red-600 dark:text-red-400" role="alert">
       {error}
