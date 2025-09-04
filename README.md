@@ -12,7 +12,7 @@ A modern article management system built with SvelteKit, TypeScript, and Tailwin
 - **Responsive Design**: Mobile-first approach works seamlessly across all devices
 
 ### Theming & Design
-- **4 Theme Options**:
+- **4 Theme Options** (powered by [svelte-themes](https://svelte-themes.vercel.app/)):
   - 🍽️ **BidFood** - Custom theme with authentic BidFood colors (#72C262 green, #140749 blue)
   - ☀️ Light mode
   - 🌙 Dark mode  
@@ -44,7 +44,9 @@ A modern article management system built with SvelteKit, TypeScript, and Tailwin
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) v4
 - **Validation**: [Zod](https://github.com/colinhacks/zod)
 - **Testing**: [Vitest](https://vitest.dev/) with browser mode
-- **Theme Management**: [svelte-themes](https://github.com/aholland/svelte-themes) v1.0.2
+- **Theme Management**: [svelte-themes](https://github.com/aholland/svelte-themes) v1.0.2 - A Svelte 5 port of next-themes by @aholland
+  - [Live Demo](https://svelte-themes.vercel.app/)
+  - Provides seamless theme switching with localStorage persistence
 - **Custom Font**: Guthen Bloots (BidFood theme)
 - **Date Formatting**: [date-fns](https://date-fns.org/)
 - **Linting**: ESLint with TypeScript and Svelte plugins
