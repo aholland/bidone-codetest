@@ -6,16 +6,27 @@ import type {
   PaginatedResponse,
   ApiResponse,
 } from '$lib/types/article';
+import { createArticleSchema, updateArticleSchema, TITLE_MAX_LENGTH, AUTHOR_MAX_LENGTH } from '$lib/types/article';
 import { getArticles, setArticles, getNextId } from './mock-db';
 
 const DELAY_MS = 300;
+
+// Global error simulation settings
+let errorSimulationEnabled = false;
+let errorChance = 0.05;
+
+export function setErrorSimulation(enabled: boolean, chance: number = 0.05) {
+  errorSimulationEnabled = enabled;
+  errorChance = chance / 100; // Convert percentage to decimal
+}
 
 async function delay(ms: number = DELAY_MS): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function simulateError(chance: number = 0.05): boolean {
-  return Math.random() < chance;
+function simulateError(defaultChance: number = 0.05): boolean {
+  if (!errorSimulationEnabled) return false;
+  return Math.random() < (errorChance || defaultChance);
 }
 
 export async function fetchArticles(
@@ -115,9 +126,21 @@ export async function createArticle(
   }
 
   try {
+    // Simulate server-side validation
+    const validationResult = createArticleSchema.safeParse(input);
+    
+    if (!validationResult.success) {
+      // Return first validation error
+      const firstError = validationResult.error.issues[0];
+      return {
+        success: false,
+        error: firstError.message,
+      };
+    }
+
     const articles = getArticles();
     const newArticle: Article = {
-      ...input,
+      ...validationResult.data,
       id: getNextId(),
       createdAt: new Date().toISOString(),
     };
@@ -150,6 +173,18 @@ export async function updateArticle(
   }
 
   try {
+    // Simulate server-side validation
+    const validationResult = updateArticleSchema.safeParse(input);
+    
+    if (!validationResult.success) {
+      // Return first validation error
+      const firstError = validationResult.error.issues[0];
+      return {
+        success: false,
+        error: firstError.message,
+      };
+    }
+
     const articles = getArticles();
     const index = articles.findIndex((a) => a.id === id);
 
@@ -162,7 +197,7 @@ export async function updateArticle(
 
     const updatedArticle = {
       ...articles[index],
-      ...input,
+      ...validationResult.data,
     };
 
     const newArticles = [...articles];

@@ -18,6 +18,7 @@
   let status = $state(article?.status || ArticleStatus.DRAFT);
   let errors = $state<Record<string, string>>({});
   let submitting = $state(false);
+  let overrideValidation = $state(false);
 
 
   async function handleSubmit(event: SubmitEvent) {
@@ -31,12 +32,17 @@
     };
 
     try {
-      // Validate the form data
-      const schema = article ? updateArticleSchema : createArticleSchema;
-      const validatedData = schema.parse(formData);
+      // Skip validation if override is enabled
+      let dataToSubmit = formData;
+      
+      if (!overrideValidation) {
+        // Validate the form data
+        const schema = article ? updateArticleSchema : createArticleSchema;
+        dataToSubmit = schema.parse(formData);
+      }
 
       submitting = true;
-      await onSubmit(validatedData);
+      await onSubmit(dataToSubmit);
     } catch (error) {
       if (error instanceof z.ZodError) {
         // Map Zod errors to our errors object
@@ -106,21 +112,42 @@
     </label>
   </div>
 
-  <div class="flex gap-3 justify-end pt-4 border-t dark:border-gray-700">
-    <Button
-      type="button"
-      variant="ghost"
-      onclick={handleCancel}
-      disabled={submitting}
-    >
-      Cancel
-    </Button>
-    <Button
-      type="submit"
-      variant="primary"
-      disabled={submitting}
-    >
-      {submitting ? 'Saving...' : article ? 'Update Article' : status === ArticleStatus.PUBLISHED ? 'Publish article' : 'Create draft'}
-    </Button>
+  <div class="flex items-center justify-between pt-4 border-t dark:border-gray-700">
+    <div class="flex items-start">
+      <input
+        type="checkbox"
+        id="overrideValidation"
+        bind:checked={overrideValidation}
+        disabled={submitting}
+        class="mt-1 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded disabled:opacity-50"
+      />
+      <div class="ml-2">
+        <label for="overrideValidation" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+          Override validation
+        </label>
+        {#if overrideValidation}
+          <p class="mt-1 text-xs text-orange-600 dark:text-orange-400">
+            You can now leave fields empty or make them too long to test error handling.
+          </p>
+        {/if}
+      </div>
+    </div>
+    <div class="flex gap-3">
+      <Button
+        type="button"
+        variant="ghost"
+        onclick={handleCancel}
+        disabled={submitting}
+      >
+        Cancel
+      </Button>
+      <Button
+        type="submit"
+        variant="primary"
+        disabled={submitting}
+      >
+        {submitting ? 'Saving...' : article ? 'Update Article' : status === ArticleStatus.PUBLISHED ? 'Publish article' : 'Create draft'}
+      </Button>
+    </div>
   </div>
 </form>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { articlesStore } from '$lib/stores/articles.svelte';
+  import { setErrorSimulation } from '$lib/api/articles';
   import type { Article, CreateArticleInput, UpdateArticleInput } from '$lib/types/article';
   import ArticleList from '$lib/components/ArticleList.svelte';
   import ArticleForm from '$lib/components/ArticleForm.svelte';
@@ -18,9 +19,16 @@
   let deletingArticle = $state<Article | null>(null);
   let statusFilter = $state<string | undefined>(undefined);
   let readOnlyMode = $state(false);
+  let simulateErrors = $state(false);
+  let errorRate = $state(5);
 
   onMount(() => {
     articlesStore.loadArticles();
+  });
+
+  // Update error simulation when settings change
+  $effect(() => {
+    setErrorSimulation(simulateErrors, errorRate);
   });
 
   function handleSearch(query: string) {
@@ -104,6 +112,29 @@
       <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Article management</h1>
       <div class="flex items-center gap-4">
         <div class="flex items-center gap-2">
+          <label for="simulateErrors" class="text-sm text-gray-700 dark:text-gray-300">
+            Simulate errors
+          </label>
+          <input
+            type="checkbox"
+            id="simulateErrors"
+            bind:checked={simulateErrors}
+            class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
+          />
+          {#if simulateErrors}
+            <input
+              type="number"
+              bind:value={errorRate}
+              min="0"
+              max="100"
+              step="5"
+              class="w-16 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              title="Error rate percentage"
+            />
+            <span class="text-sm text-gray-600 dark:text-gray-400">%</span>
+          {/if}
+        </div>
+        <div class="flex items-center gap-2">
           <label for="readOnlyMode" class="text-sm text-gray-700 dark:text-gray-300">
             View-only
           </label>
@@ -127,6 +158,12 @@
         </div>
       </div>
     </div>
+
+    {#if simulateErrors}
+      <div class="mb-3 text-sm text-red-600 dark:text-red-400">
+        Random errors ({errorRate}% chance) will occur for loading, searching, filtering, creating, updating, and deleting articles.
+      </div>
+    {/if}
 
     <div class="flex flex-col sm:flex-row gap-4">
       <div class="flex-1">
