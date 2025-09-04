@@ -146,13 +146,13 @@
           />
         </div>
         <ThemeSwitcher />
-        <div class="w-32 h-10">
+        <div class="w-36 h-10">
           {#if !readOnlyMode}
             <Button onclick={openCreateModal} variant="primary">
-            <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
-              New Article
+              <span class="whitespace-nowrap">New Article</span>
             </Button>
           {/if}
         </div>
