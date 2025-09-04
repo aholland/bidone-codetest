@@ -2,6 +2,10 @@
 
 A modern article management system built with SvelteKit, TypeScript, and Tailwind CSS. Features a custom BidFood theme with authentic branding, complete CRUD operations, and comprehensive testing capabilities.
 
+## 🌐 Live Demo
+
+**[View the application at bidone-codetest.vercel.app](https://bidone-codetest.vercel.app/)**
+
 ## Features
 
 ### Core Functionality
