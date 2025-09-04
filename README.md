@@ -1,25 +1,41 @@
-# Article Management System
+# BidOne Code Test - Article Management System
 
-A modern, accessible article management system built with SvelteKit, TypeScript, and Tailwind CSS. This application provides content editors with a comprehensive tool for managing articles with full CRUD operations, search, filtering, and pagination.
+A modern article management system built with SvelteKit, TypeScript, and Tailwind CSS. Features a custom BidFood theme with authentic branding, complete CRUD operations, and comprehensive testing capabilities.
 
 ## Features
 
 ### Core Functionality
-- **Article Management**: Create, read, update, and delete articles
-- **Search & Filter**: Search articles by title and filter by status (Published/Draft)
-- **Pagination**: Efficient navigation through large article lists
-- **Form Validation**: Robust client-side validation using Zod
-- **Dark/Light Theme**: Toggle between themes with persistent preference
-- **Responsive Design**: Works seamlessly across desktop and mobile devices
+- **Article Management**: Create, read, update, and delete articles with localStorage persistence
+- **Search & Filter**: Real-time search with highlighting and status filtering (Draft/Published)
+- **Pagination**: Smart pagination with efficient navigation
+- **Form Validation**: Client and server-side validation using Zod schemas
+- **Responsive Design**: Mobile-first approach works seamlessly across all devices
 
-### Technical Highlights
-- **Type Safety**: Full TypeScript implementation with strict mode
-- **Component Architecture**: Reusable, accessible UI components
-- **State Management**: Reactive store with Svelte 5 runes
-- **Mock API**: Simulated backend with realistic delays and error handling
-- **Testing**: Unit tests for validation logic and integration tests for components
-- **Accessibility**: WCAG compliant with semantic HTML and ARIA labels
-- **Performance**: Optimized rendering with efficient state updates
+### Theming & Design
+- **4 Theme Options**:
+  - 🍽️ **BidFood** - Custom theme with authentic BidFood colors (#72C262 green, #140749 blue)
+  - ☀️ Light mode
+  - 🌙 Dark mode  
+  - 💻 System preference
+- **BidFood Branding**:
+  - Custom Guthen Bloots font matching BidFood's website
+  - Official brand colors from bidfood.co.nz
+  - Green heading text in BidFood theme
+  - Light gray Draft badges for subtle status indication
+
+### Developer Features
+- **Error Simulation**: Controllable error rate (0-100%) for testing error handling
+- **Validation Override**: Test server-side validation by bypassing client checks
+- **View-Only Mode**: Simulate read-only user permissions
+- **Character Counters**: Real-time character count with limit indicators (red when exceeded)
+
+### Technical Excellence  
+- **Type Safety**: Full TypeScript with Zod validation
+- **Svelte 5 Runes**: Latest Svelte features (`$state`, `$derived`, `$effect`, `$props`)
+- **Accessibility**: Semantic HTML, ARIA labels, keyboard navigation, focus management
+- **Mock API**: Client-side API simulation with realistic delays and error handling
+- **localStorage Persistence**: Data survives page refreshes and sessions
+- **Performance**: Debounced search, optimistic updates, efficient rendering
 
 ## Tech Stack
 
@@ -28,11 +44,12 @@ A modern, accessible article management system built with SvelteKit, TypeScript,
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) v4
 - **Validation**: [Zod](https://github.com/colinhacks/zod)
 - **Testing**: [Vitest](https://vitest.dev/) with browser mode
-- **Theme Management**: [svelte-themes](https://github.com/aholland/svelte-themes)
+- **Theme Management**: [svelte-themes](https://github.com/aholland/svelte-themes) v1.0.2
+- **Custom Font**: Guthen Bloots (BidFood theme)
 - **Date Formatting**: [date-fns](https://date-fns.org/)
 - **Linting**: ESLint with TypeScript and Svelte plugins
 
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
 
@@ -43,8 +60,8 @@ A modern, accessible article management system built with SvelteKit, TypeScript,
 
 1. Clone the repository:
 ```bash
-git clone <repository-url>
-cd CodeTest1
+git clone https://github.com/aholland/bidone-codetest.git
+cd bidone-codetest
 ```
 
 2. Install dependencies:
@@ -86,8 +103,8 @@ pnpm check:watch      # Type-check in watch mode
 src/
 ├── lib/
 │   ├── api/
-│   │   ├── articles.ts      # Mock API service
-│   │   └── mock-db.ts       # In-memory database
+│   │   ├── articles.ts      # Mock API endpoints with error simulation
+│   │   └── mock-db.ts       # localStorage-backed database
 │   ├── components/
 │   │   ├── ArticleForm.svelte    # Article create/edit form
 │   │   ├── ArticleList.svelte    # Article list display
@@ -100,7 +117,7 @@ src/
 │   │   ├── SearchBar.svelte      # Search input
 │   │   ├── Select.svelte         # Select dropdown
 │   │   ├── StatusFilter.svelte   # Status filter tabs
-│   │   └── ThemeToggle.svelte    # Dark/light theme toggle
+│   │   └── ThemeSwitcher.svelte  # 4-theme switcher with icons
 │   ├── stores/
 │   │   └── articles.svelte.ts    # Article state management
 │   ├── types/
@@ -115,39 +132,49 @@ src/
 └── app.html                      # HTML template
 ```
 
-## Architecture Overview
+## 🎨 BidFood Theme Details
+
+The BidFood theme authentically represents the brand with:
+- **Primary Green**: `#72C262` - Used for headings and primary actions
+- **Brand Blue**: `#140749` - Used for accents and dark backgrounds
+- **Custom Font**: Guthen Bloots - Matches BidFood's website typography
+- **Refined Details**: Draft badges use subtle gray instead of default purple
+
+## 🧪 Testing Features
+
+### Error Simulation
+1. Enable "Simulate errors" checkbox in header
+2. Set error rate (5% = occasional, 50% = frequent, 100% = always)
+3. Try any operation (create, update, search, filter)
+4. Observe error handling and recovery
+
+### Validation Testing  
+1. Open create/edit modal
+2. Check "Override validation" at bottom
+3. Try submitting with:
+   - Empty fields
+   - Text exceeding limits (200 chars for title, 100 for author)
+4. See server-side validation messages
+
+### View-Only Mode
+1. Toggle "View-only" checkbox in header
+2. New Article button disappears
+3. Edit/Delete buttons are hidden
+4. Read-only experience simulated
+
+## 🏗️ Architecture
 
 ### Data Flow
-1. **Mock API Layer**: Simulates backend operations with realistic delays
-2. **Store Layer**: Manages application state with reactive updates
-3. **Component Layer**: Presents UI and handles user interactions
-4. **Validation Layer**: Ensures data integrity using Zod schemas
+1. **Mock API Layer**: Client-side API simulation with error injection
+2. **Store Layer**: Svelte 5 reactive state with `$state` runes
+3. **Component Layer**: Modular, accessible UI components
+4. **Persistence Layer**: localStorage for data survival
 
-### Key Design Patterns
-- **Component Composition**: Small, focused components combined to create features
-- **Prop-based Configuration**: Components accept configuration via props
-- **Event-driven Updates**: Child components emit events to parent handlers
-- **Optimistic UI Updates**: Immediate feedback with error recovery
-
-## Testing
-
-The project includes comprehensive test coverage:
-
-### Unit Tests
-- Validation logic for article creation and updates
-- Error formatting utilities
-- Schema validation edge cases
-
-### Integration Tests
-- Form submission and validation
-- Component interaction flows
-- State management updates
-
-Run tests with:
-```bash
-pnpm test              # Run once
-pnpm test:unit         # Watch mode
-```
+### Key Patterns
+- **Svelte 5 Runes**: Modern reactive state management
+- **Component Composition**: Reusable UI building blocks
+- **Optimistic Updates**: Immediate feedback with error recovery
+- **Debounced Operations**: Performance-optimized search
 
 ## Accessibility Features
 
@@ -178,18 +205,32 @@ pnpm test:unit         # Watch mode
 - **Accessibility**: WCAG compliance
 - **Code Organization**: Clear, maintainable structure
 
-## Future Enhancements (Optional)
+## 🚀 Deployment
 
-The following features could be added to extend functionality:
+### Vercel (Recommended)
+This project is optimized for Vercel deployment:
 
-- **Role-based Access Control**: Different permissions for viewers and editors
-- **Advanced Filtering**: Multiple filter criteria
-- **Bulk Operations**: Select and operate on multiple articles
-- **Export Functionality**: Export articles to various formats
-- **Rich Text Editor**: Enhanced content creation
-- **Tags/Categories**: Article categorization
-- **Version History**: Track article changes over time
-- **Real-time Collaboration**: Multiple editors working simultaneously
+```bash
+# Install Vercel adapter
+pnpm add -D @sveltejs/adapter-vercel
+
+# Update svelte.config.js to use adapter-vercel
+
+# Deploy
+vercel
+```
+
+The app works perfectly on Vercel since it's a pure frontend with localStorage persistence.
+
+## 🌟 Highlights
+
+This project demonstrates:
+- **Modern Svelte 5**: Latest framework features and patterns
+- **Enterprise Theming**: Production-ready multi-theme support
+- **Testing Tools**: Built-in error simulation and validation testing
+- **Accessibility First**: WCAG compliant from the ground up
+- **Real Brand Integration**: Authentic BidFood colors and typography
+- **Developer Experience**: Hot reload, TypeScript, great DX
 
 ## License
 
