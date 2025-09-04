@@ -146,10 +146,55 @@ export const mockArticles: Article[] = [
   },
 ];
 
-let articles = [...mockArticles];
+// Initialize from localStorage or fall back to mock data
+function loadFromStorage(): Article[] {
+  if (typeof window === 'undefined') return [...mockArticles];
+  
+  try {
+    const stored = localStorage.getItem('articles');
+    const storedNextId = localStorage.getItem('nextId');
+    
+    if (storedNextId) {
+      nextId = parseInt(storedNextId, 10);
+    }
+    
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      // If nextId wasn't stored, calculate it
+      if (!storedNextId) {
+        const maxId = Math.max(...parsed.map((a: Article) => a.id), 20);
+        nextId = maxId + 1;
+      }
+      return parsed;
+    }
+  } catch (error) {
+    console.error('Failed to load articles from localStorage:', error);
+  }
+  
+  return [...mockArticles];
+}
+
+// Save to localStorage
+function saveToStorage(articles: Article[]): void {
+  if (typeof window === 'undefined') return;
+  
+  try {
+    localStorage.setItem('articles', JSON.stringify(articles));
+    localStorage.setItem('nextId', String(nextId));
+  } catch (error) {
+    console.error('Failed to save articles to localStorage:', error);
+  }
+}
+
+let articles = loadFromStorage();
 
 export function getNextId(): number {
-  return nextId++;
+  const id = nextId++;
+  // Save the updated nextId
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('nextId', String(nextId));
+  }
+  return id;
 }
 
 export function getArticles(): Article[] {
@@ -158,9 +203,11 @@ export function getArticles(): Article[] {
 
 export function setArticles(newArticles: Article[]): void {
   articles = newArticles;
+  saveToStorage(articles);
 }
 
 export function resetArticles(): void {
   articles = [...mockArticles];
   nextId = 21;
+  saveToStorage(articles);
 }
