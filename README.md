@@ -44,8 +44,9 @@ A modern article management system built with SvelteKit, TypeScript, and Tailwin
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) v4
 - **Validation**: [Zod](https://github.com/colinhacks/zod)
 - **Testing**: [Vitest](https://vitest.dev/) with browser mode
-- **Theme Management**: [svelte-themes](https://github.com/aholland/svelte-themes) v1.0.2 - A Svelte 5 port of next-themes by @aholland
+- **Theme Management**: [svelte-themes](https://github.com/aholland/svelte-themes) v1.0.2 - A Svelte 5 port of next-themes
   - [Live Demo](https://svelte-themes.vercel.app/)
+  - Initial Svelte 5 migration by @aholland ([acknowledged in changelog](https://github.com/beynar/svelte-themes/blob/main/CHANGELOG.md#thank-you))
   - Provides seamless theme switching with localStorage persistence
 - **Custom Font**: Guthen Bloots (BidFood theme)
 - **Date Formatting**: [date-fns](https://date-fns.org/)
@@ -105,31 +106,39 @@ pnpm check:watch      # Type-check in watch mode
 src/
 ├── lib/
 │   ├── api/
-│   │   ├── articles.ts      # Mock API endpoints with error simulation
-│   │   └── mock-db.ts       # localStorage-backed database
+│   │   ├── articles.ts           # Mock API endpoints with error simulation
+│   │   └── mock-db.ts            # localStorage-backed database
+│   ├── assets/
+│   │   └── favicon.svg           # App favicon
 │   ├── components/
-│   │   ├── ArticleForm.svelte    # Article create/edit form
-│   │   ├── ArticleList.svelte    # Article list display
+│   │   ├── ArticleForm.svelte    # Article create/edit form with validation override
+│   │   ├── ArticleList.svelte    # Article list with search highlighting
 │   │   ├── Badge.svelte          # Status badge component
-│   │   ├── Button.svelte         # Reusable button
+│   │   ├── Button.svelte         # Reusable button with variants
 │   │   ├── Card.svelte           # Card container
-│   │   ├── Input.svelte          # Form input field
-│   │   ├── Modal.svelte          # Modal dialog
-│   │   ├── Pagination.svelte     # Pagination controls
-│   │   ├── SearchBar.svelte      # Search input
+│   │   ├── Input.svelte          # Form input with character counter
+│   │   ├── Modal.svelte          # Native dialog modal
+│   │   ├── Pagination.svelte     # Smart pagination with nav element
+│   │   ├── SearchBar.svelte      # Debounced search input
 │   │   ├── Select.svelte         # Select dropdown
 │   │   ├── StatusFilter.svelte   # Status filter tabs
-│   │   └── ThemeSwitcher.svelte  # 4-theme switcher with icons
+│   │   ├── ThemeSwitcher.svelte  # 4-theme switcher with icons
+│   │   └── ThemeToggle.svelte    # Legacy theme toggle (unused)
 │   ├── stores/
-│   │   └── articles.svelte.ts    # Article state management
+│   │   └── articles.svelte.ts    # Svelte 5 store with $state runes
 │   ├── types/
-│   │   └── article.ts            # TypeScript definitions
+│   │   └── article.ts            # TypeScript types & Zod schemas
 │   └── utils/
-│       └── validation.ts         # Validation utilities
+│       ├── highlight.ts          # Search term highlighting
+│       ├── validation.ts         # Form validation helpers
+│       └── validation.spec.ts    # Validation unit tests
 ├── routes/
 │   ├── +layout.svelte            # Root layout with theme provider
-│   └── +page.svelte              # Main application page
-├── app.css                       # Global styles and Tailwind directives
+│   └── +page.svelte              # Main page with all controls
+├── static/
+│   └── fonts/
+│       └── Guthen Bloots Personal Use.ttf  # BidFood theme font
+├── app.css                       # Global styles, themes & @font-face
 ├── app.d.ts                      # TypeScript ambient declarations
 └── app.html                      # HTML template
 ```
