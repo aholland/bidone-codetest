@@ -23,7 +23,12 @@
   let errorRate = $state(5);
 
   onMount(() => {
-    articlesStore.loadArticles();
+    articlesStore.loadArticles().then(() => {
+      // Set a flag for tests to know when initial load is complete
+      if (typeof window !== 'undefined') {
+        (window as any).__APP_READY__ = true;
+      }
+    });
   });
 
   // Update error simulation when settings change

@@ -47,7 +47,9 @@ A modern article management system built with SvelteKit, TypeScript, and Tailwin
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/) v4
 - **Validation**: [Zod](https://github.com/colinhacks/zod)
-- **Testing**: [Vitest](https://vitest.dev/) with browser mode
+- **Testing**: 
+  - [Vitest](https://vitest.dev/) with browser mode for unit tests
+  - [Playwright](https://playwright.dev/) for end-to-end integration tests
 - **Theme Management**: [svelte-themes](https://github.com/aholland/svelte-themes) v1.0.2 - A Svelte 5 port of next-themes
   - [Live Demo](https://svelte-themes.vercel.app/)
   - Initial Svelte 5 migration by @aholland ([acknowledged in changelog](https://github.com/beynar/svelte-themes/blob/main/CHANGELOG.md#thank-you))
@@ -95,8 +97,9 @@ pnpm build            # Build for production
 pnpm preview          # Preview production build
 
 # Testing
-pnpm test             # Run all tests once
-pnpm test:unit        # Run tests in watch mode
+pnpm test             # Run all unit tests once  
+pnpm test:unit        # Run unit tests in watch mode
+pnpm exec playwright test  # Run Playwright integration tests
 
 # Code Quality
 pnpm lint             # Run ESLint
@@ -154,6 +157,44 @@ The BidFood theme authentically represents the brand with:
 - **Brand Blue**: `#140749` - Used for accents and dark backgrounds
 - **Custom Font**: Guthen Bloots - Matches BidFood's website typography
 - **Refined Details**: Draft badges use subtle gray instead of default purple
+
+## 🧪 Testing
+
+### Comprehensive Test Coverage
+The application includes both unit tests and end-to-end integration tests:
+
+- **Unit Tests** (Vitest): Component logic, validation, utilities
+- **Integration Tests** (Playwright): Complete user flows including:
+  - Article CRUD operations
+  - Search functionality with debouncing
+  - Status filtering
+  - Theme switching
+  - View-only mode
+  - Character count validation
+  - Modal interactions
+
+### Testing Pragmatism
+To ensure reliable test execution, the production code includes minimal test-friendly flags:
+- `__APP_READY__`: Signals when initial data load is complete
+- `__SEARCH_COMPLETE__`: Indicates search operations have finished  
+- `__LAST_SEARCH_QUERY__`: Tracks the last search query for verification
+
+These flags enable deterministic testing without arbitrary delays, ensuring tests run quickly and reliably.
+
+### Running Tests
+```bash
+# Run all unit tests
+pnpm test
+
+# Run Playwright integration tests  
+pnpm exec playwright test
+
+# Run specific test file
+pnpm exec playwright test tests/article-management.spec.ts
+
+# Run tests with UI (headed mode)
+pnpm exec playwright test --headed
+```
 
 ## 🧪 Testing Features
 

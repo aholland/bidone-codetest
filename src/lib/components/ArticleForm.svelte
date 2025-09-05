@@ -64,6 +64,10 @@
   function handleCancel() {
     onCancel();
   }
+
+  function clearFieldError(field: string) {
+    errors[field] = '';
+  }
 </script>
 
 <form onsubmit={handleSubmit} novalidate class="space-y-6">
@@ -82,6 +86,7 @@
     placeholder="Enter article title"
     disabled={submitting}
     maxLength={TITLE_MAX_LENGTH}
+    onfocus={() => clearFieldError('title')}
   />
 
   <Input
@@ -93,6 +98,7 @@
     placeholder="Enter author name"
     disabled={submitting}
     maxLength={AUTHOR_MAX_LENGTH}
+    onfocus={() => clearFieldError('author')}
   />
 
   <div class="flex items-center">

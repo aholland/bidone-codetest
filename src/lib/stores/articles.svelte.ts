@@ -199,6 +199,12 @@ class ArticlesStore {
     this.state.searchLoading = true;
     this.state.error = null;
 
+    // Set flag for tests - search started
+    if (typeof window !== 'undefined') {
+      (window as any).__SEARCH_IN_PROGRESS__ = true;
+      (window as any).__LAST_SEARCH_QUERY__ = query;
+    }
+
     try {
       const response = await fetchArticles(this.state.filters);
       
@@ -215,6 +221,11 @@ class ArticlesStore {
       this.state.error = error instanceof Error ? error.message : 'An unexpected error occurred';
     } finally {
       this.state.searchLoading = false;
+      // Set flag for tests - search completed
+      if (typeof window !== 'undefined') {
+        (window as any).__SEARCH_IN_PROGRESS__ = false;
+        (window as any).__SEARCH_COMPLETE__ = true;
+      }
     }
   }
 

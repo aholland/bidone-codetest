@@ -19,6 +19,8 @@
     required = false,
     disabled = false,
     value = $bindable(),
+    onfocus,
+    onblur,
     ...restProps
   }: Props = $props();
 
@@ -53,18 +55,25 @@
     class={inputClasses}
     aria-invalid={!!error || isOverLimit}
     aria-describedby={error ? `${inputId}-error` : undefined}
-    onfocus={() => isFocused = true}
-    onblur={() => isFocused = false}
+    onfocus={(e) => {
+      isFocused = true;
+      onfocus?.(e);
+    }}
+    onblur={(e) => {
+      isFocused = false;
+      onblur?.(e);
+    }}
     {...restProps}
   />
-  {#if maxLength && isFocused && charCount > 0}
-    <p class="mt-1 text-sm {isOverLimit ? 'text-red-600 dark:text-red-400 underline' : 'text-gray-500 dark:text-gray-400'}">
-      {charCount}/{maxLength}
-    </p>
-  {/if}
-  {#if error}
-    <p id="{inputId}-error" class="mt-1 text-sm text-red-600 dark:text-red-400" role="alert">
-      {error}
-    </p>
-  {/if}
+  <div class="h-5 mt-1">
+    {#if maxLength && isFocused && charCount > 0}
+      <p class="text-sm {isOverLimit ? 'text-red-600 dark:text-red-400 underline' : 'text-gray-500 dark:text-gray-400'}">
+        {charCount}/{maxLength}
+      </p>
+    {:else if error}
+      <p id="{inputId}-error" class="text-sm text-red-600 dark:text-red-400" role="alert">
+        {error}
+      </p>
+    {/if}
+  </div>
 </div>

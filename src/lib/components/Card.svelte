@@ -16,6 +16,6 @@
   `.replace(/\s+/g, ' ').trim();
 </script>
 
-<article class={cardClasses}>
+<div class={cardClasses}>
   {@render children?.()}
-</article>
+</div>
