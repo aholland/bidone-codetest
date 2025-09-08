@@ -193,7 +193,7 @@
   --badge-published-bg: #72C262;
   --badge-published-text: #ffffff;
   --badge-draft-bg: #f0f0f0;
-  --badge-draft-text: #666666;
+  --badge-draft-text: var(--color-secondary); /* Deep purple for Draft text */
   
   /* Modal backdrop */
   --modal-backdrop: rgba(0, 0, 0, 0.5);
@@ -357,6 +357,15 @@ input[type="search"]::-webkit-search-decoration {
   .text-gray-900 { color: var(--text-primary); }
   .text-gray-600 { color: var(--text-secondary); }
   .border-gray-200 { border-color: var(--border); }
+  
+  /* Delete button uses deep purple background */
+  .btn-danger {
+    background-color: var(--color-secondary);
+  }
+  
+  .btn-danger:hover:not(:disabled) {
+    background-color: var(--color-danger);
+  }
   
   /* Apply marker font to main heading with BidFood green */
   h1 {
