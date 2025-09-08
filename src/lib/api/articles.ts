@@ -13,20 +13,20 @@ const DELAY_MS = 300;
 
 // Global error simulation settings
 let errorSimulationEnabled = false;
-let errorChance = 0.05;
+let errorChance = 0;
 
-export function setErrorSimulation(enabled: boolean, chance: number = 0.05) {
+export function setErrorSimulation(enabled: boolean, percentChance: number) {
   errorSimulationEnabled = enabled;
-  errorChance = chance / 100; // Convert percentage to decimal
+  errorChance = percentChance / 100;
 }
 
 async function delay(ms: number = DELAY_MS): Promise<void> {
-  return new Promise((resolve) => setTimeout(resolve, ms));
+  return await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function simulateError(defaultChance: number = 0.05): boolean {
+function simulateError(): boolean {
   if (!errorSimulationEnabled) return false;
-  return Math.random() < (errorChance || defaultChance);
+  return Math.random() < errorChance;
 }
 
 export async function fetchArticles(
@@ -34,7 +34,7 @@ export async function fetchArticles(
 ): Promise<ApiResponse<PaginatedResponse<Article>>> {
   await delay();
 
-  if (simulateError(0.02)) {
+  if (simulateError()) {
     return {
       success: false,
       error: 'Failed to fetch articles. Please try again.',
@@ -87,38 +87,12 @@ export async function fetchArticles(
   }
 }
 
-export async function fetchArticle(id: number): Promise<ApiResponse<Article>> {
-  await delay();
-
-  if (simulateError(0.02)) {
-    return {
-      success: false,
-      error: 'Failed to fetch article. Please try again.',
-    };
-  }
-
-  const articles = getArticles();
-  const article = articles.find((a) => a.id === id);
-
-  if (!article) {
-    return {
-      success: false,
-      error: 'Article not found',
-    };
-  }
-
-  return {
-    success: true,
-    data: article,
-  };
-}
-
 export async function createArticle(
   input: CreateArticleInput
 ): Promise<ApiResponse<Article>> {
   await delay();
 
-  if (simulateError(0.03)) {
+  if (simulateError()) {
     return {
       success: false,
       error: 'Failed to create article. Please try again.',
@@ -165,7 +139,7 @@ export async function updateArticle(
 ): Promise<ApiResponse<Article>> {
   await delay();
 
-  if (simulateError(0.03)) {
+  if (simulateError()) {
     return {
       success: false,
       error: 'Failed to update article. Please try again.',
@@ -219,7 +193,7 @@ export async function updateArticle(
 export async function deleteArticle(id: number): Promise<ApiResponse<void>> {
   await delay();
 
-  if (simulateError(0.03)) {
+  if (simulateError()) {
     return {
       success: false,
       error: 'Failed to delete article. Please try again.',

@@ -1,5 +1,7 @@
 <script lang="ts">
   import Button from './Button.svelte';
+  import ChevronLeftIcon from './icons/ChevronLeftIcon.svelte';
+  import ChevronRightIcon from './icons/ChevronRightIcon.svelte';
 
   interface Props {
     currentPage: number;
@@ -70,16 +72,14 @@
       disabled={currentPage === 1 || disabled}
       aria-label="Go to previous page"
     >
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-      </svg>
+      <ChevronLeftIcon class="w-4 h-4" />
       Previous
     </Button>
     
     <div class="flex items-center gap-1">
       {#each pageNumbers() as page (page)}
         {#if page === '...'}
-          <span class="px-3 py-1 text-gray-500 dark:text-gray-400">...</span>
+          <span class="px-3 py-1 text-gray-500">...</span>
         {:else}
           <button
             type="button"
@@ -87,10 +87,10 @@
             disabled={disabled}
             aria-label={`Go to page ${page}`}
             aria-current={page === currentPage ? 'page' : undefined}
-            class="px-3 py-1 rounded-md text-sm font-medium transition-colors
+            class="pagination-button px-3 py-1 rounded-md text-sm font-medium transition-colors
               {page === currentPage
-                ? 'bg-blue-600 text-white'
-                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'} 
+                ? 'pagination-active'
+                : 'pagination-inactive'} 
               disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {page}
@@ -107,13 +107,11 @@
       aria-label="Go to next page"
     >
       Next
-      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-      </svg>
+      <ChevronRightIcon class="w-4 h-4" />
     </Button>
   </div>
   
-  <p class="text-sm text-gray-600 dark:text-gray-400">
+  <p class="text-sm text-gray-600">
     Page {currentPage} of {totalPages}
   </p>
 </nav>

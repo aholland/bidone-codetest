@@ -5,17 +5,15 @@
   }
 
   let { class: className = '', children }: Props = $props();
-
-  const cardClasses = `
-    bg-white dark:bg-gray-800 
-    [data-theme="bidfood"]:bg-white
-    rounded-lg shadow-sm 
-    border border-gray-200 dark:border-gray-700
-    [data-theme="bidfood"]:border-[#e1e8ed]
-    p-6 ${className}
-  `.replace(/\s+/g, ' ').trim();
 </script>
 
-<div class={cardClasses}>
+<div class="card rounded-lg shadow-sm p-6 {className}">
   {@render children?.()}
 </div>
+
+<style>
+  .card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--border-primary);
+  }
+</style>

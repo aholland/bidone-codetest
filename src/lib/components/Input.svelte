@@ -30,7 +30,7 @@
   const charCount = $derived(String(value || '').length);
   const isOverLimit = $derived(maxLength ? charCount > maxLength : false);
 
-  const baseClasses = 'block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed dark:bg-gray-800 dark:border-gray-600 dark:text-white';
+  const baseClasses = 'block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed bg-white text-gray-900';
   const errorClasses = error || isOverLimit ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '';
   const widthClass = fullWidth ? 'w-full' : '';
 
@@ -39,7 +39,7 @@
 
 <div class={fullWidth ? 'w-full' : ''}>
   {#if label}
-    <label for={inputId} class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+    <label for={inputId} class="block text-sm font-medium text-gray-700 mb-1">
       {label}
       {#if required}
         <span class="text-red-500" aria-label="required">*</span>
@@ -51,6 +51,7 @@
     {type}
     {required}
     {disabled}
+    {maxLength}
     bind:value
     class={inputClasses}
     aria-invalid={!!error || isOverLimit}
@@ -67,11 +68,11 @@
   />
   <div class="h-5 mt-1">
     {#if maxLength && isFocused && charCount > 0}
-      <p class="text-sm {isOverLimit ? 'text-red-600 dark:text-red-400 underline' : 'text-gray-500 dark:text-gray-400'}">
+      <p class="text-sm {isOverLimit ? 'text-red-600 underline' : 'text-gray-500'}">
         {charCount}/{maxLength}
       </p>
     {:else if error}
-      <p id="{inputId}-error" class="text-sm text-red-600 dark:text-red-400" role="alert">
+      <p id="{inputId}-error" class="text-sm text-red-600" role="alert">
         {error}
       </p>
     {/if}

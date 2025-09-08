@@ -11,6 +11,8 @@
   import SearchBar from '$lib/components/SearchBar.svelte';
   import StatusFilter from '$lib/components/StatusFilter.svelte';
   import ThemeSwitcher from '$lib/components/ThemeSwitcher.svelte';
+  import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
+  import ErrorCircleIcon from '$lib/components/icons/ErrorCircleIcon.svelte';
 
   let showCreateModal = $state(false);
   let showEditModal = $state(false);
@@ -20,7 +22,7 @@
   let statusFilter = $state<string | undefined>(undefined);
   let readOnlyMode = $state(false);
   let simulateErrors = $state(false);
-  let errorRate = $state(5);
+  let errorRate = $state(50);
 
   onMount(() => {
     articlesStore.loadArticles().then(() => {
@@ -114,10 +116,10 @@
 <div class="container mx-auto px-4 py-8 max-w-7xl">
   <header class="mb-8">
     <div class="flex items-center justify-between mb-6">
-      <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Article management</h1>
+      <h1 class="text-3xl font-bold text-gray-900">Article management</h1>
       <div class="flex items-center gap-4">
         <div class="flex items-center gap-2">
-          <label for="simulateErrors" class="text-sm text-gray-700 dark:text-gray-300">
+          <label for="simulateErrors" class="text-sm text-gray-700">
             Simulate errors
           </label>
           <input
@@ -126,21 +128,20 @@
             bind:checked={simulateErrors}
             class="h-4 w-4 text-red-600 focus:ring-red-500 border-gray-300 rounded"
           />
-          {#if simulateErrors}
-            <input
-              type="number"
-              bind:value={errorRate}
-              min="0"
-              max="100"
-              step="5"
-              class="w-16 px-2 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
-              title="Error rate percentage"
-            />
-            <span class="text-sm text-gray-600 dark:text-gray-400">%</span>
-          {/if}
+          <input
+            type="number"
+            bind:value={errorRate}
+            min="0"
+            max="100"
+            step="5"
+            disabled={!simulateErrors}
+            class="w-16 px-2 py-1 text-sm border border-gray-300 rounded bg-white {simulateErrors ? 'text-gray-900' : 'text-gray-400 bg-gray-50'}"
+            title="Error rate percentage"
+          />
+          <span class="text-sm {simulateErrors ? 'text-gray-600' : 'text-gray-400'}">%</span>
         </div>
         <div class="flex items-center gap-2">
-          <label for="readOnlyMode" class="text-sm text-gray-700 dark:text-gray-300">
+          <label for="readOnlyMode" class="text-sm text-gray-700">
             View-only
           </label>
           <input
@@ -154,9 +155,7 @@
         <div class="w-36 h-10">
           {#if !readOnlyMode}
             <Button onclick={openCreateModal} variant="primary">
-            <svg class="w-5 h-5 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
+              <PlusIcon class="w-5 h-5 mr-2 flex-shrink-0" />
               <span class="whitespace-nowrap">New Article</span>
             </Button>
           {/if}
@@ -165,7 +164,7 @@
     </div>
 
     {#if simulateErrors}
-      <div class="mb-3 text-sm text-red-600 dark:text-red-400">
+      <div class="mb-3 text-sm text-red-600">
         Random errors ({errorRate}% chance) will occur for loading, searching, filtering, creating, updating, and deleting articles.
       </div>
     {/if}
@@ -186,11 +185,9 @@
   </header>
 
   {#if articlesStore.error}
-    <div class="mb-6 bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded" role="alert">
+    <div class="mb-6 bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded" role="alert">
       <div class="flex items-center">
-        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
-        </svg>
+        <ErrorCircleIcon class="w-5 h-5 mr-2" />
         <span>{articlesStore.error}</span>
       </div>
     </div>
@@ -238,7 +235,7 @@
   <Modal open={showDeleteModal} title="Delete Article" onClose={closeDeleteModal}>
     {#if deletingArticle}
       <div class="space-y-4">
-        <p class="text-gray-700 dark:text-gray-300">
+        <p class="text-gray-700">
           Are you sure you want to delete the article <strong>"{deletingArticle.title}"</strong>? This action cannot be undone.
         </p>
         <div class="flex gap-3 justify-end pt-4">

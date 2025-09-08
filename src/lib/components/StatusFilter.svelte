@@ -23,7 +23,7 @@
   }
 </script>
 
-<div class="flex items-center gap-1 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg" role="tablist" aria-label="Filter articles by status">
+<div class="status-filter flex items-center gap-1 p-1 rounded-lg" role="tablist" aria-label="Filter articles by status">
   {#each filters as filter (filter.value || 'all')}
     <button
       type="button"
@@ -31,13 +31,33 @@
       aria-selected={selected === filter.value}
       onclick={() => handleClick(filter.value)}
       disabled={disabled}
-      class="px-4 py-2 rounded-md text-sm font-medium transition-colors
+      class="status-filter-button px-4 py-2 rounded-md text-sm font-medium transition-colors
         {selected === filter.value 
-          ? 'bg-white dark:bg-gray-700 text-blue-600 dark:text-blue-400 shadow-sm' 
-          : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'}
+          ? 'status-filter-active' 
+          : 'status-filter-inactive'}
         disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {filter.label}
     </button>
   {/each}
 </div>
+
+<style>
+  .status-filter {
+    background-color: var(--gray-100);
+  }
+  
+  .status-filter-active {
+    background-color: var(--color-surface);
+    color: var(--color-primary);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+  
+  .status-filter-inactive {
+    color: var(--text-secondary);
+  }
+  
+  .status-filter-inactive:hover:not(:disabled) {
+    color: var(--text-primary);
+  }
+</style>

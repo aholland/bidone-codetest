@@ -97,9 +97,9 @@ pnpm build            # Build for production
 pnpm preview          # Preview production build
 
 # Testing
-pnpm test             # Run all unit tests once  
-pnpm test:unit        # Run unit tests in watch mode
-pnpm exec playwright test  # Run Playwright integration tests
+pnpm test             # Run all tests (unit + Playwright)
+pnpm test:unit        # Run unit tests only
+pnpm test:playwright  # Run Playwright integration tests only
 
 # Code Quality
 pnpm lint             # Run ESLint
@@ -129,8 +129,7 @@ src/
 │   │   ├── SearchBar.svelte      # Debounced search input
 │   │   ├── Select.svelte         # Select dropdown
 │   │   ├── StatusFilter.svelte   # Status filter tabs
-│   │   ├── ThemeSwitcher.svelte  # 4-theme switcher with icons
-│   │   └── ThemeToggle.svelte    # Legacy theme toggle (unused)
+│   │   └── ThemeSwitcher.svelte  # 4-theme switcher with icons
 │   ├── stores/
 │   │   └── articles.svelte.ts    # Svelte 5 store with $state runes
 │   ├── types/
@@ -248,6 +247,8 @@ pnpm exec playwright test --headed
 - **Pagination**: Limits rendered items for better performance
 - **Optimistic Updates**: Immediate UI feedback
 - **Reactive State**: Efficient updates with Svelte 5 runes
+- **CSS Variables**: Theme-aware styling without repetitive selectors
+- **Icon Components**: Reusable SVG icons for better maintainability
 - **Code Splitting**: Automatic route-based code splitting
 
 ## Best Practices Demonstrated

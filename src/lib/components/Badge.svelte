@@ -1,20 +1,32 @@
 <script lang="ts">
   interface Props {
-    variant?: 'default' | 'success' | 'warning';
+    variant?: 'default' | 'Published' | 'Draft';
     children?: import('svelte').Snippet;
   }
 
   let { variant = 'default', children }: Props = $props();
-
-  const variantClasses = {
-    default: 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200',
-    success: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-    warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  };
-
-  const badgeClasses = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${variantClasses[variant]}`;
 </script>
 
-<span class={badgeClasses}>
+<span class="badge badge-{variant} inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
   {@render children?.()}
 </span>
+
+<style>
+  /* Default badge */
+  .badge-default {
+    background-color: var(--gray-100);
+    color: var(--gray-800);
+  }
+
+  /* Published status - uses theme variables */
+  .badge-Published {
+    background-color: var(--badge-published-bg);
+    color: var(--badge-published-text);
+  }
+
+  /* Draft status - uses theme variables */
+  .badge-Draft {
+    background-color: var(--badge-draft-bg);
+    color: var(--badge-draft-text);
+  }
+</style>

@@ -72,7 +72,7 @@
 
 <form onsubmit={handleSubmit} novalidate class="space-y-6">
   {#if errors.general}
-    <div class="bg-red-50 dark:bg-red-900/50 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-200 px-4 py-3 rounded" role="alert">
+    <div class="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded" role="alert">
       {errors.general}
     </div>
   {/if}
@@ -85,7 +85,7 @@
     fullWidth
     placeholder="Enter article title"
     disabled={submitting}
-    maxLength={TITLE_MAX_LENGTH}
+    maxLength={overrideValidation ? undefined : TITLE_MAX_LENGTH}
     onfocus={() => clearFieldError('title')}
   />
 
@@ -97,7 +97,7 @@
     fullWidth
     placeholder="Enter author name"
     disabled={submitting}
-    maxLength={AUTHOR_MAX_LENGTH}
+    maxLength={overrideValidation ? undefined : AUTHOR_MAX_LENGTH}
     onfocus={() => clearFieldError('author')}
   />
 
@@ -110,15 +110,15 @@
       disabled={submitting}
       class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded disabled:opacity-50"
     />
-    <label for="published" class="ml-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
+    <label for="published" class="ml-2 block text-sm font-medium text-gray-700">
       Publish
       {#if status === ArticleStatus.DRAFT}
-        <span class="text-gray-500 dark:text-gray-400">(draft)</span>
+        <span class="text-gray-500">(draft)</span>
       {/if}
     </label>
   </div>
 
-  <div class="flex items-center justify-between pt-4 border-t dark:border-gray-700">
+  <div class="flex items-center justify-between pt-4 border-t border-gray-200">
     <div class="flex items-start">
       <input
         type="checkbox"
@@ -128,11 +128,11 @@
         class="mt-1 h-4 w-4 text-orange-600 focus:ring-orange-500 border-gray-300 rounded disabled:opacity-50"
       />
       <div class="ml-2">
-        <label for="overrideValidation" class="text-sm font-medium text-gray-700 dark:text-gray-300">
+        <label for="overrideValidation" class="text-sm font-medium text-gray-700">
           Override validation
         </label>
         {#if overrideValidation}
-          <p class="mt-1 text-xs text-orange-600 dark:text-orange-400">
+          <p class="mt-1 text-xs text-orange-600">
             You can now leave fields empty or make them too long to test error handling.
           </p>
         {/if}
