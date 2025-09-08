@@ -6,7 +6,7 @@ test.describe('Simple Article Management Test', () => {
     await page.goto('/');
     
     // Wait for app to be ready
-    await page.waitForFunction(() => (window as any).__APP_READY__, { timeout: 10000 });
+    await page.waitForFunction(() => (window as Window & { __APP_READY__?: boolean }).__APP_READY__, { timeout: 10000 });
     
     // Verify the page loaded
     await expect(page.locator('h1')).toContainText('Article management');
@@ -24,8 +24,8 @@ test.describe('Simple Article Management Test', () => {
     
     // Wait for search to complete
     await page.waitForFunction(
-      () => (window as any).__SEARCH_COMPLETE__ && 
-            (window as any).__LAST_SEARCH_QUERY__ === 'Building',
+      () => (window as Window & { __SEARCH_COMPLETE__?: boolean; __LAST_SEARCH_QUERY__?: string }).__SEARCH_COMPLETE__ && 
+            (window as Window & { __SEARCH_COMPLETE__?: boolean; __LAST_SEARCH_QUERY__?: string }).__LAST_SEARCH_QUERY__ === 'Building',
       { timeout: 5000 }
     );
     
@@ -71,6 +71,7 @@ test.describe('Simple Article Management Test', () => {
     // Verify the heading is green in BidFood theme
     const headingColor = await page.evaluate(() => {
       const h1 = document.querySelector('h1');
+      if (!h1) throw new Error('h1 element not found');
       return window.getComputedStyle(h1).color;
     });
     

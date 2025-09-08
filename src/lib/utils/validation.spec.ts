@@ -154,12 +154,11 @@ describe('validation utils', () => {
         {
           code: 'too_small',
           minimum: 1,
-          type: 'string',
           inclusive: true,
           exact: false,
           path: ['title'],
           message: 'Title is required',
-        },
+        } as z.ZodIssue,
       ]);
 
       const formatted = formatValidationErrors(error);
@@ -174,21 +173,19 @@ describe('validation utils', () => {
         {
           code: 'too_small',
           minimum: 1,
-          type: 'string',
           inclusive: true,
           exact: false,
           path: ['title'],
           message: 'Title is required',
-        },
+        } as z.ZodIssue,
         {
           code: 'too_small',
           minimum: 1,
-          type: 'string',
           inclusive: true,
           exact: false,
           path: ['author'],
           message: 'Author is required',
-        },
+        } as z.ZodIssue,
       ]);
 
       const formatted = formatValidationErrors(error);
@@ -204,10 +201,9 @@ describe('validation utils', () => {
         {
           code: 'invalid_type',
           expected: 'string',
-          received: 'number',
           path: ['nested', 'field'],
           message: 'Invalid field',
-        },
+        } as z.ZodIssue,
       ]);
 
       const formatted = formatValidationErrors(error);
@@ -223,7 +219,7 @@ describe('validation utils', () => {
           code: 'custom',
           path: [],
           message: 'General error',
-        },
+        } as z.ZodIssue,
       ]);
 
       const formatted = formatValidationErrors(error);

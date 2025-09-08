@@ -6,7 +6,7 @@ import type {
   PaginatedResponse,
   ApiResponse,
 } from '$lib/types/article';
-import { createArticleSchema, updateArticleSchema, TITLE_MAX_LENGTH, AUTHOR_MAX_LENGTH } from '$lib/types/article';
+import { createArticleSchema, updateArticleSchema } from '$lib/types/article';
 import { getArticles, setArticles, getNextId } from './mock-db';
 
 const DELAY_MS = 300;

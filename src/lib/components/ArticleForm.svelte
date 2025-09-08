@@ -33,12 +33,14 @@
 
     try {
       // Skip validation if override is enabled
-      let dataToSubmit = formData;
+      let dataToSubmit: typeof formData;
       
       if (!overrideValidation) {
         // Validate the form data
         const schema = article ? updateArticleSchema : createArticleSchema;
-        dataToSubmit = schema.parse(formData);
+        dataToSubmit = schema.parse(formData) as typeof formData;
+      } else {
+        dataToSubmit = formData;
       }
 
       submitting = true;

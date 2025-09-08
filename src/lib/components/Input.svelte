@@ -31,10 +31,12 @@
   const isOverLimit = $derived(maxLength ? charCount > maxLength : false);
 
   const baseClasses = 'block rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed bg-white text-gray-900';
-  const errorClasses = error || isOverLimit ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '';
   const widthClass = fullWidth ? 'w-full' : '';
 
-  const inputClasses = `${baseClasses} ${errorClasses} ${widthClass} ${className}`;
+  const inputClasses = $derived((() => {
+    const errorClasses = error || isOverLimit ? 'border-red-500 focus:border-red-500 focus:ring-red-500' : '';
+    return `${baseClasses} ${errorClasses} ${widthClass} ${className}`;
+  })());
 </script>
 
 <div class={fullWidth ? 'w-full' : ''}>
@@ -51,7 +53,7 @@
     {type}
     {required}
     {disabled}
-    {maxLength}
+    maxlength={maxLength}
     bind:value
     class={inputClasses}
     aria-invalid={!!error || isOverLimit}

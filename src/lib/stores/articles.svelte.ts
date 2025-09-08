@@ -201,8 +201,8 @@ class ArticlesStore {
 
     // Set flag for tests - search started
     if (typeof window !== 'undefined') {
-      (window as any).__SEARCH_IN_PROGRESS__ = true;
-      (window as any).__LAST_SEARCH_QUERY__ = query;
+      (window as Window & { __SEARCH_IN_PROGRESS__?: boolean; __LAST_SEARCH_QUERY__?: string }).__SEARCH_IN_PROGRESS__ = true;
+      (window as Window & { __SEARCH_IN_PROGRESS__?: boolean; __LAST_SEARCH_QUERY__?: string }).__LAST_SEARCH_QUERY__ = query;
     }
 
     try {
@@ -223,8 +223,8 @@ class ArticlesStore {
       this.state.searchLoading = false;
       // Set flag for tests - search completed
       if (typeof window !== 'undefined') {
-        (window as any).__SEARCH_IN_PROGRESS__ = false;
-        (window as any).__SEARCH_COMPLETE__ = true;
+        (window as Window & { __SEARCH_IN_PROGRESS__?: boolean; __SEARCH_COMPLETE__?: boolean }).__SEARCH_IN_PROGRESS__ = false;
+        (window as Window & { __SEARCH_IN_PROGRESS__?: boolean; __SEARCH_COMPLETE__?: boolean }).__SEARCH_COMPLETE__ = true;
       }
     }
   }

@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Article } from '$lib/types/article';
-  import { ArticleStatus } from '$lib/types/article';
   import { format } from 'date-fns';
   import { highlightText } from '$lib/utils/highlight';
   import Badge from './Badge.svelte';
@@ -57,6 +56,7 @@
           <div class="flex-1">
             <div class="flex items-center gap-3 mb-2">
               <h3 class="text-lg font-semibold text-gray-900">
+                <!-- eslint-disable-next-line svelte/no-at-html-tags -->
                 {@html highlightText(article.title, searchQuery)}
               </h3>
               <Badge variant={article.status}>

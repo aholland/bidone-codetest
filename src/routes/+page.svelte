@@ -28,7 +28,7 @@
     articlesStore.loadArticles().then(() => {
       // Set a flag for tests to know when initial load is complete
       if (typeof window !== 'undefined') {
-        (window as any).__APP_READY__ = true;
+        (window as Window & { __APP_READY__?: boolean }).__APP_READY__ = true;
       }
     });
   });

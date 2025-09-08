@@ -1,0 +1,16 @@
+# Test files
+tests/
+test-results/
+playwright-report/
+playwright.config.ts
+
+# Development files
+mvpref/
+guthen_bloots.zip
+
+# Config files
+vitest.config.ts
+vitest-setup-client.ts
+
+# Documentation
+CLAUDE.md
