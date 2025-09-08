@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import './test-types.d'; // Just import for side effects (type augmentation)
 
 test.describe('Simple Article Management Test', () => {
   test('should load the page and interact with articles', async ({ page }) => {
@@ -6,7 +7,7 @@ test.describe('Simple Article Management Test', () => {
     await page.goto('/');
     
     // Wait for app to be ready
-    await page.waitForFunction(() => (window as Window & { __APP_READY__?: boolean }).__APP_READY__, { timeout: 10000 });
+    await page.waitForFunction(() => window.__APP_READY__, { timeout: 10000 });
     
     // Verify the page loaded
     await expect(page.locator('h1')).toContainText('Article management');
@@ -24,8 +25,8 @@ test.describe('Simple Article Management Test', () => {
     
     // Wait for search to complete
     await page.waitForFunction(
-      () => (window as Window & { __SEARCH_COMPLETE__?: boolean; __LAST_SEARCH_QUERY__?: string }).__SEARCH_COMPLETE__ && 
-            (window as Window & { __SEARCH_COMPLETE__?: boolean; __LAST_SEARCH_QUERY__?: string }).__LAST_SEARCH_QUERY__ === 'Building',
+      () => window.__SEARCH_COMPLETE__ && 
+            window.__LAST_SEARCH_QUERY__ === 'Building',
       { timeout: 5000 }
     );
     

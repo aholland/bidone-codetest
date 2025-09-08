@@ -8,6 +8,14 @@ declare global {
 		// interface PageState {}
 		// interface Platform {}
 	}
+
+	// Test flags on window object
+	interface Window {
+		__APP_READY__?: boolean;
+		__SEARCH_IN_PROGRESS__?: boolean;
+		__SEARCH_COMPLETE__?: boolean;
+		__LAST_SEARCH_QUERY__?: string;
+	}
 }
 
 export {};
